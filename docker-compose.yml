@@ -1,0 +1,86 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-network
+    command: --lower_case_table_names=0
+    environment:
+      MYSQL_ROOT_PASSWORD: fiap
+      MYSQL_DATABASE: agrodb
+      MYSQL_USER: fiap
+      MYSQL_PASSWORD: fiap
+
+  rabbitmq:
+    image: rabbitmq:3.9.5-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - spring-network
+
+  core:
+    build:
+      dockerfile: ./docker/core.dockerfile
+      context: .
+    image: grupo03/core
+    container_name: core
+    ports:
+      - 8080:8080
+    networks:
+      - spring-network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    depends_on:
+      - mysql
+      - rabbitmq
+    restart: on-failure:10
+
+  consumer:
+    build:
+      dockerfile: ./docker/consumer.dockerfile
+      context: .
+    image: grupo03/batch
+    container_name: batch
+    networks:
+      - spring-network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    depends_on:
+      - mysql
+      - rabbitmq
+      - core
+    restart: on-failure:10
+
+  job:
+    build:
+      dockerfile: ./docker/job.dockerfile
+      context: .
+    image: grupo03/job
+    container_name: job
+    networks:
+      - spring-network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MAIL_EMAIL: email@gmail.com
+      MAIL_PASSWORD: password
+      EMAIL_NOTIFICACAO: email@hotmail.com
+    depends_on:
+      - mysql
+      - rabbitmq
+      - core
+    restart: on-failure:10
+
+networks:
+  spring-network:
+    driver: bridge
