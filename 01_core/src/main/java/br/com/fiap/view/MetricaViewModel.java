@@ -8,13 +8,17 @@ import org.springframework.data.domain.Page;
 @Data
 public class MetricaViewModel {
 
+    private Long droneId;
+    private String droneNome;
     private String latitude;
     private String longitude;
-    private Long temperatura;
+    private Double temperatura;
     private Long umidade;
 
     public MetricaViewModel(Metrica metrica) {
         BeanUtils.copyProperties(metrica, this);
+        droneId = metrica.getDrone().getId();
+        droneNome = metrica.getDrone().getNome();
     }
 
     public static Page<MetricaViewModel> parse(Page<Metrica> metricas) {

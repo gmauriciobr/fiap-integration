@@ -29,7 +29,7 @@ services:
     image: grupo03/core
     container_name: core
     ports:
-      - 8080:8080
+      - 11080:8080
     networks:
       - spring-network
     environment:
@@ -72,7 +72,7 @@ services:
     environment:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
-      MAIL_EMAIL: email@gmail.com
+      MAIL_EMAIL: email@gmail.com 
       MAIL_PASSWORD: password
       EMAIL_NOTIFICACAO: email@hotmail.com
     depends_on:
@@ -80,6 +80,18 @@ services:
       - rabbitmq
       - core
     restart: on-failure:10
+
+  app:
+    build:
+      dockerfile: ./docker/app.dockerfile
+      context: .
+    image: grupo03/app
+    container_name: app
+    ports:
+      - 8080:80
+    depends_on:
+      - core
+    restart: on-failure:10  
 
 networks:
   spring-network:

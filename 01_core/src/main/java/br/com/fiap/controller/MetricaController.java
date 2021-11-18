@@ -14,7 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +27,7 @@ public class MetricaController {
 
     private final MetricaService metricaService;
 
-    @PutMapping
+    @PostMapping
     @Operation(summary = "Cadastra metrica", tags = {"metrica"})
     public ResponseEntity<Void> cadastro(@RequestBody @Valid MetricaDTO dto) {
         metricaService.cadastro(dto);
@@ -35,7 +35,7 @@ public class MetricaController {
     }
 
     @GetMapping
-    @Operation(summary = "Busca Todos Pedidos", tags = {"metrica"})
+    @Operation(summary = "Busca todas metricas", tags = {"metrica"})
     public Page<MetricaViewModel> buscaTodasMetrica(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable page) {
         return MetricaViewModel.parse(metricaService.buscaMetricas(page));
     }
