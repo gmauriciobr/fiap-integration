@@ -1,14 +1,12 @@
 # Trabalho Integration & Development Tools
-
-- Turma 40SCJ
 - Professor: Carlos Hesketh
 
 #### Grupo
 
-- Guilherme Mauricio - RM: 340879
-- Douglas Mateus - RM: 342031
-- João Rafael - RM: 342038
-- Julia Assunção - RM: 341934
+- Guilherme Mauricio
+- Douglas Mateus
+- João Rafael
+- Julia Assunção
 
 #### Definição
 
