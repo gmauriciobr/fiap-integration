@@ -23,6 +23,8 @@ export function* postMetrica(action) {
 
     if (response.status === 204) {
       yield put(MetricaActions.postMetricaSuccess())
+    } else if (response.status === 400) {
+      yield put(MetricaActions.postMetricaError())
     }
   } catch (error) {
     throw new Error("Houve um erro ao tentar cadastrar uma métrica")

@@ -14,14 +14,13 @@
 
 Este documento tem como objetivo descrever os requisitos para a elaboração de um projeto usado como avaliação da disciplina.
 
-
 #### Gif
-![integration](https://user-images.githubusercontent.com/7011282/143978182-3c5237b4-c464-41ee-9ba5-dbead7326815.gif)
+
+![integration](videos/integration.gif)
 
 ### Diagrama
-![Diagrama](https://user-images.githubusercontent.com/7011282/144155435-2da1e7ff-9630-456e-893c-ddc757ec809c.png)
 
-
+![Diagrama](anexo/diagrama.png)
 
 #### Especificações
 

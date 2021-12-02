@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import { Creators as DroneActions } from "../../Store/Ducks/drone"
@@ -16,13 +16,28 @@ export default function CreateDrone() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const { loading, hasError, success } = useSelector((state) => state.drone)
+
   const [name, setName] = useState("")
   const [rastreavel, setRastreavel] = useState(false)
+  const [showError, setShowError] = useState(false)
 
   const handleCreate = () => {
     dispatch(DroneActions.postDroneRequest({ nome: name, rastreavel }))
-    navigate("/")
   }
+
+  useEffect(() => {
+    if (!loading && success) {
+      navigate("/")
+    }
+  }, [loading, success])
+
+  useEffect(() => {
+    console.log(hasError)
+    if (!loading && hasError) {
+      setShowError(!showError)
+    }
+  }, [loading, hasError])
 
   return (
     <ContainerMain>
@@ -39,6 +54,11 @@ export default function CreateDrone() {
           <Toggle handleCheck={() => setRastreavel(!rastreavel)} />
         </WrapperFlex>
       </Form>
+      {showError && (
+        <span style={{ color: "red", weight: 900, margin: "10px 0" }}>
+          Ops! Algo deu errado, tente novamente mais tarde.
+        </span>
+      )}
       <WrapperFlex
         style={{ width: "100%", justifyContent: "center", margin: "15px 0" }}
       >

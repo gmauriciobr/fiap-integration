@@ -17,7 +17,13 @@ const INITIAL_STATE = {
 export default function metrica(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.GET_METRICA_REQUEST:
-      return { ...state, loading: true, data: [], success: false }
+      return {
+        ...state,
+        loading: true,
+        data: [],
+        success: false,
+        hasError: false,
+      }
 
     case Types.GET_METRICA_SUCCESS:
       return { ...state, loading: false, data: action.data }

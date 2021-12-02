@@ -29,7 +29,7 @@ export default function CreateDrone() {
   const navigate = useNavigate()
 
   const { data } = useSelector((state) => state.drone)
-  const { loading, success } = useSelector((state) => state.metrica)
+  const { loading, success, hasError } = useSelector((state) => state.metrica)
 
   const [latitude, setLatitude] = useState("")
   const [longitude, setLongitude] = useState("")
@@ -37,6 +37,7 @@ export default function CreateDrone() {
   const [umidade, setUmidade] = useState(0)
   const [options, setOptions] = useState([])
   const [selected, setSelected] = useState(null)
+  const [showError, setShowError] = useState(false)
 
   const handleData = () => {
     const arr = data.map((d) => {
@@ -71,6 +72,12 @@ export default function CreateDrone() {
   }, [data])
 
   useEffect(() => {
+    if (!loading && hasError) {
+      setShowError(!showError)
+    }
+  }, [loading, hasError])
+
+  useEffect(() => {
     dispatch(DroneActions.getDronesRequest())
   }, [])
 
@@ -103,6 +110,11 @@ export default function CreateDrone() {
           onChange={(e) => setUmidade(Number(e.target.value))}
         />
       </Form>
+      {showError && (
+        <span style={{ color: "red", weight: 900, margin: "10px 0" }}>
+          Ops! Algo deu errado, tente novamente mais tarde.
+        </span>
+      )}
       <WrapperFlex
         style={{ width: "100%", justifyContent: "center", margin: "15px 0" }}
       >
